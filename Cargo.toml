@@ -1,0 +1,12 @@
+[package]
+name = "Mikey--DiscordBot-"
+version = "0.1.0"
+edition = "2021"
+
+authors = [
+    "Adrian Zapien <adrian@zapien.dev>"
+]
+
+[dependencies]
+tokio = { version = "1", features = [ "macros", "rt-multi-thread" ] }
+serenity = { version = "0.9.0-rc.1", default-features = false, features = [ "client", "gateway", "model", "rustls_backend" ] }
