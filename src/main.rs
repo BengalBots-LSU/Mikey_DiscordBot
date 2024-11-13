@@ -9,10 +9,22 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.content == "!ping" {
-            if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await {
-                println!("Error sending message: {why:?}");
+        match msg.content.as_str() {
+            "!ping" => {
+                if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await {
+                    println!("Error sending message: {why:?}");
+                }
             }
+            "!karma_test" => {
+                if let Err(why) = msg
+                    .channel_id
+                    .say(&ctx.http, "This is a responce to karma's testing")
+                    .await
+                {
+                    println!("Error sending message: {why:?}");
+                }
+            }
+            _ => {}
         }
     }
 }
@@ -20,7 +32,7 @@ impl EventHandler for Handler {
 #[tokio::main]
 async fn main() {
     // Login with a bot token from the environment
-    dotenvy::dotenv();
+    let _ = dotenvy::dotenv();
 
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
     // Set gateway intents, which decides what events the bot will be notified about
@@ -29,8 +41,10 @@ async fn main() {
         | GatewayIntents::MESSAGE_CONTENT;
 
     // Create a new instance of the Client, logging in as a bot.
-    let mut client =
-        Client::builder(&token, intents).event_handler(Handler).await.expect("Err creating client");
+    let mut client = Client::builder(&token, intents)
+        .event_handler(Handler)
+        .await
+        .expect("Err creating client");
 
     // Start listening for events by starting a single shard
     if let Err(why) = client.start().await {
@@ -38,4 +52,4 @@ async fn main() {
     }
 }
 
-//  #ISSUE: after building the program. Trying to pass the token as a variable into the executable via the command line fails. 
+//  #ISSUE: after building the program. Trying to pass the token as a variable into the executable via the command line fails.
