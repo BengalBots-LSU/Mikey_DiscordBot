@@ -13,6 +13,8 @@ struct Data {} // User data, which is stored and accessible in all command invoc
 type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
+// To set a description for a command, simply add a triple slash comment above the command:
+
 /// Displays your or another user's account creation date
 #[poise::command(slash_command, prefix_command)]
 async fn age(
