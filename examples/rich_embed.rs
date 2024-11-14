@@ -1,7 +1,9 @@
 use std::env;
 
-// This is bar for bar the same as the example from examples/rich_embed.rs
-// If you're having merge conflict issues because of this, feel free to delete this file.
+/*
+    This example demonstrates how to create an embed message from the bot using Serenity's message builder.
+    The command to run this example is `!hello`. {I didn't feel like reformatting it as a slash command - Adrian}
+*/
 
 use serenity::async_trait;
 use serenity::builder::{CreateAttachment, CreateEmbed, CreateEmbedFooter, CreateMessage};
