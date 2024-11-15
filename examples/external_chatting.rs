@@ -11,7 +11,6 @@ use tokio::sync::mpsc;
 async fn main() {
     // Create the client and shared context.
     let (client, senerity_context) = create_client().await;
-
     let (message_buffer_send, message_buffer_rec) = mpsc::channel::<SendDataToDiscord>(50);
 
     // Use tokio::join! to run multiple async tasks concurrently.

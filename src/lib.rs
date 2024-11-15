@@ -83,17 +83,6 @@ pub async fn create_client() -> (
     (client, shared_ctx)
 }
 
-pub async fn scream_from_outside(send: SendToDiscordMpsc) {
-    loop {
-        let send_message = SendDataToDiscord {
-            message: CreateMessage::new().content("AAAAAAAAAAAAAAAAAAA"),
-            channel: ChannelId::new(1102864318233595934),
-        };
-        send.send(send_message).await.unwrap();
-        tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-    }
-}
-
 pub async fn send_message_to_channel(
     global_ctx: Arc<Mutex<Option<SerenityContext>>>,
     mut rec: tokio::sync::mpsc::Receiver<SendDataToDiscord>,
