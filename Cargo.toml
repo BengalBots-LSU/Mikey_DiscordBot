@@ -1,5 +1,5 @@
 [package]
-name = "Mikey"
+name = "mikey"
 version = "0.1.0"
 edition = "2021"
 
@@ -14,3 +14,5 @@ dotenvy = "0.15.7"
 poise = "0.6.1"
 rss = "2.0.9"
 reqwest = "0.12.9"
+
+
