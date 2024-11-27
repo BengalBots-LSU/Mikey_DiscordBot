@@ -5,11 +5,11 @@ use std::env;
     The command to run this example is `!hello`. {I didn't feel like reformatting it as a slash command - Adrian}
 */
 
+use serenity::all::{EmbedMessageBuilding, MessageBuilder};
 use serenity::async_trait;
-use serenity::builder::{CreateAttachment, CreateEmbed, CreateEmbedFooter, CreateMessage};
+use serenity::builder::{CreateAttachment, CreateEmbed, CreateMessage};
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
-use serenity::model::Timestamp;
 use serenity::prelude::*;
 
 struct Handler;
@@ -17,28 +17,51 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.content == "!hello" {
+        if msg.content == "!links" {
             // The create message builder allows you to easily create embeds and messages using a
             // builder syntax.
             // This example will create a message that says "Hello, World!", with an embed that has
             // a title, description, an image, three fields, and a footer.
-            let footer = CreateEmbedFooter::new("This is a footer");
+            let tigerlink = MessageBuilder::new()
+                    .push_named_link("**TigerLink**", "https://tigerlink.lsu.edu/BengalBots/club_signup").build();
+            
+            let instagram = MessageBuilder::new()
+                    .push_named_link("**Instagram**", "https://www.instagram.com/bengal.bots/").build();
+
+            let redbubble = MessageBuilder::new()
+                    .push_named_link("**Redbubble**", "https://www.redbubble.com/people/BengalBots/shop?").build();
+
+            let github = MessageBuilder::new()
+                    .push_named_link("**GitHub**", "https://github.com/BengalBots-LSU").build();
+
+            let linkedin = MessageBuilder::new()
+                    .push_named_link("**LinkedIn**", "https://www.linkedin.com/company/bengalbots-lsu/").build();
+
+            let fusion360 = MessageBuilder::new()
+                    .push_named_link("**Fusion360**", "https://mylsu1602.autodesk360.com/").build();
+
             let embed = CreateEmbed::new()
                 .color(0x461d7c)
-                .title("This is a title")
-                .description("This is a description")
+                .title("BengalBots Links")
                 .image("attachment://bengalbots.png")
                 .fields(vec![
-                    ("This is the first field", "This is a field body", true),
-                    ("This is the second field", "Both fields are inline", true),
+                    ("", tigerlink, true),
+                    ("", instagram, true),
+                    ("", redbubble, true),
                 ])
-                .field("This is the third field", "This is not an inline field", false)
-                .footer(footer)
+                .fields(vec![
+                    ("", "", true),
+                    ("", "", true),
+                    ("", "", true),
+                ])
+                .fields(vec![
+                    ("", github, true),
+                    ("", linkedin, true),
+                    ("", fusion360, true),
+                ]);
                 // Add a timestamp for the current time
                 // This also accepts a rfc3339 Timestamp
-                .timestamp(Timestamp::now());
             let builder = CreateMessage::new()
-                .content("Hello, World!")
                 .embed(embed)
                 .add_file(CreateAttachment::path("./media/bengalbots.png").await.unwrap());
             let msg = msg.channel_id.send_message(&ctx.http, builder).await;
