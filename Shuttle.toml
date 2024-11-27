@@ -1,0 +1,5 @@
+[deploy]
+deny_dirty = true
+include = [
+  "Secrets.toml"
+]

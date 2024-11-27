@@ -2,7 +2,7 @@
 
 /target
 
-# Environment variables, namely Discord Token
+# Environment variables
 .env
 Secrets.toml
 Secrets.dev.toml
