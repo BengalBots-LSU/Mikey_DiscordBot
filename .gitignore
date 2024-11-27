@@ -4,3 +4,7 @@
 
 # Environment variables, namely Discord Token
 .env
+Secrets.toml
+Secrets.dev.toml
+
+.shuttle 
