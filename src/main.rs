@@ -7,15 +7,21 @@ use commands::{
     rules::rules,
 };
 
+use shuttle_runtime::{SecretStore, Secrets};
+
 pub struct Data {} // User data, which is stored and accessible in all command invocations
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
 pub type Context<'a> = poise::Context<'a, Data, Error>;
 
-#[tokio::main]
-async fn main() {
-    let _ = dotenvy::dotenv();
+#[shuttle_runtime::main]
+async fn main(
+        #[shuttle_runtime::Secrets] secrets: SecretStore,
+) -> shuttle_serenity::ShuttleSerenity {
 
-    let token = env::var("DISCORD_TOKEN").expect("missing DISCORD_TOKEN");
+    let token = secrets
+        .get("DISCORD_TOKEN")
+        .expect("Expected a token in the environment");
+
     let intents =
         serenity::GatewayIntents::non_privileged() | serenity::GatewayIntents::MESSAGE_CONTENT;
 
@@ -31,7 +37,7 @@ async fn main() {
             },
             ..Default::default()
         })
-        .setup(|ctx, _ready, framework| {
+        .setup(|ctx, _ready: &serenity::model::prelude::Ready, framework| {
             Box::pin(async move {
                 poise::builtins::register_globally(ctx, &framework.options().commands).await?;
                 Ok(Data {})
@@ -41,7 +47,8 @@ async fn main() {
 
     let client = serenity::ClientBuilder::new(token, intents)
         .framework(framework)
-        .await;
+        .await
+        .expect("Error creating client");
 
-    client.unwrap().start().await.unwrap();
+    Ok(client.into())
 }
