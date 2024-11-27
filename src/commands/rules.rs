@@ -9,9 +9,13 @@ use crate::{Data, Error, Context};
 )]
 pub async fn rules(ctx: Context<'_>) -> Result<(), Error> {
 
-    let discordTOS = MessageBuilder::new()
+    let DiscordTOS = MessageBuilder::new()
         .push("Follow Discord's ")
         .push_named_link("Terms of Service", "https://discord.com/terms").build();
+
+    let LSUCoC = MessageBuilder::new()
+        .push("This is a Discord Server for an LSU club, so follow LSU's ")
+        .push_named_link("Code of Conduct", "https://www.lsu.edu/saa/students/codeofconduct.php").build();
 
     let embed = CreateEmbed::new()
         .color(0xeb10ef)
@@ -20,8 +24,8 @@ pub async fn rules(ctx: Context<'_>) -> Result<(), Error> {
         .fields(vec![
             ("Rule 1️⃣", "Be Respectful to Others!", false),
             ("Rule 2️⃣", "Don't Spam Ping", false),
-            ("Rule 3️⃣", &discordTOS, false),
-            ("Rule 4️⃣", "This is a Discord Server for an LSU club, so follow LSU's Code of Conduct while here too!", false),
+            ("Rule 3️⃣", &DiscordTOS, false),
+            ("Rule 4️⃣", &LSUCoC, false),
         ]);
 
     let builder = CreateMessage::new()
