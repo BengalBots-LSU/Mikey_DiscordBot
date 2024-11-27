@@ -4,6 +4,7 @@ use std::env;
 mod commands;
 use commands::{
     links::links,
+    rules::rules,
 };
 
 pub struct Data {} // User data, which is stored and accessible in all command invocations
@@ -22,6 +23,7 @@ async fn main() {
         .options(poise::FrameworkOptions {
             commands: vec![
                 links(),
+                rules(),
             ],
             prefix_options: poise::PrefixFrameworkOptions {
                 prefix: Some("?".into()),
