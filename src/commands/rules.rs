@@ -1,4 +1,4 @@
-use serenity::all::{CreateAttachment, CreateEmbed, CreateMessage};
+use serenity::all::{CreateAttachment, CreateEmbed, CreateMessage, EmbedMessageBuilding, MessageBuilder};
 
 use crate::{Data, Error, Context};
 
@@ -9,15 +9,19 @@ use crate::{Data, Error, Context};
 )]
 pub async fn rules(ctx: Context<'_>) -> Result<(), Error> {
 
+    let discordTOS = MessageBuilder::new()
+        .push("Follow Discord's ")
+        .push_named_link("Terms of Service", "https://discord.com/terms").build();
+
     let embed = CreateEmbed::new()
         .color(0xeb10ef)
-        .title("BengalBots Server Links")
+        .title("BengalBots Server Rules")
         .image("attachment://DesktopWallpaper.png")
         .fields(vec![
-            ("Rule 1", "Don't be Kyle", false),
-            ("Rule 2", "Don't turn on drones indoors lol", false),
-            ("Rule 3", "Ignore Rule 1", false),
-            ("Rule 4", "Don't listen to Adrian", false),
+            ("Rule 1️⃣", "Be Respectful to Others!", false),
+            ("Rule 2️⃣", "Don't Spam Ping", false),
+            ("Rule 3️⃣", &discordTOS, false),
+            ("Rule 4️⃣", "This is a Discord Server for an LSU club, so follow LSU's Code of Conduct while here too!", false),
         ]);
 
     let builder = CreateMessage::new()
