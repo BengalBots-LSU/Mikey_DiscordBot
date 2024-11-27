@@ -7,14 +7,14 @@ use tokio::sync::mpsc;
 #[tokio::main]
 async fn main() {
     // Create the client and shared context.
-    let (client, senerity_context) = create_client().await;
+    let (client, senerity_context) = create_client(vec![ping(), cnn_test()]).await;
     let (message_buffer_send, message_buffer_rec) = mpsc::channel::<SendDataToDiscord>(50);
 
     // Use tokio::join! to run multiple async tasks concurrently.
-    let (_discord_result, _message_result, _scream_result) = tokio::join!(
+    let _ = tokio::join!(
         async { start_discord_client(client.unwrap()).await },
         async { send_message_to_channel(senerity_context.clone(), message_buffer_rec).await },
-        async { scream_from_outside(message_buffer_send).await }
+        // async { scream_from_outside(message_buffer_send).await }
     );
 }
 

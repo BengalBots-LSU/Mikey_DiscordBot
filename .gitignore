@@ -1,7 +1,6 @@
 # Added by cargo
 
-/target
-/src/email_mod/target
+/**/target
 
 # Environment variables, namely Discord Token
 .env

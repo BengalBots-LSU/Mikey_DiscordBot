@@ -14,5 +14,6 @@ dotenvy = "0.15.7"
 poise = "0.6.1"
 rss = "2.0.9"
 reqwest = "0.12.9"
-
-
+email_mod = { path = "./src/email_mod" }
+emailaddress = "0.4.0"
+email_address = "0.2.9"

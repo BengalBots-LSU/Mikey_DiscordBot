@@ -16,7 +16,7 @@ pub type Context<'a> = poise::Context<'a, Data, Error>;
 
 /// A command that responds with pong!
 #[poise::command(slash_command)]
-async fn ping(ctx: Context<'_>) -> Result<(), Error> {
+pub async fn ping(ctx: Context<'_>) -> Result<(), Error> {
     ctx.say("Pong!").await?;
     Ok(())
 }
@@ -37,7 +37,7 @@ pub async fn get_rss_feed() -> Vec<String> {
 }
 
 #[poise::command(slash_command)]
-async fn cnn_test(ctx: Context<'_>) -> Result<(), Error> {
+pub async fn cnn_test(ctx: Context<'_>) -> Result<(), Error> {
     ctx.say(get_rss_feed().await.last_chunk::<3>().unwrap().join(" "))
         .await?;
     Ok(())
@@ -46,8 +46,14 @@ async fn cnn_test(ctx: Context<'_>) -> Result<(), Error> {
 pub async fn start_discord_client(mut client: serenity::Client) {
     client.start().await.unwrap();
 }
-
-pub async fn create_client() -> (
+pub async fn create_client(
+    commands: Vec<
+        poise::Command<
+            <Context<'static> as poise::_GetGenerics>::U,
+            <Context<'static> as poise::_GetGenerics>::E,
+        >,
+    >,
+) -> (
     Result<serenity::Client, serenity::Error>,
     Arc<serenity::prelude::Mutex<Option<serenity::prelude::Context>>>,
 ) {
@@ -58,7 +64,7 @@ pub async fn create_client() -> (
     let intents = serenity::GatewayIntents::non_privileged();
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![ping(), cnn_test()],
+            commands,
             ..Default::default()
         })
         .setup({

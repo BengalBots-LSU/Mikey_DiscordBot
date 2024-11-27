@@ -1,44 +1,18 @@
-use rusqlite::{Connection, Result};
+use email_mod::*;
+use entities::person::PersonInput;
 
-#[derive(Debug)]
-struct Person {
-    id: i32,
-    name: String,
-    data: Option<Vec<u8>>,
-}
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let db = open_database("dummy_database.db", false, true).await?;
+    create_dummy_database(&db).await?;
+    let emails = get_emails(&db).await?;
+    for (discord_id, email) in emails {
+        println!("Discord ID: {}, Email: {}", discord_id, email);
+    }
 
-fn main() -> Result<()> {
-    let conn = Connection::open_in_memory()?;
-
-    conn.execute(
-        "CREATE TABLE person (
-            id    INTEGER PRIMARY KEY,
-            name  TEXT NOT NULL,
-            data  BLOB
-        )",z
-        (), // empty list of parameters.
-    )?;
-    let me = Person {
-        id: 0,
-        name: "Steven".to_string(),
-        data: None,
-    };
-    conn.execute(
-        "INSERT INTO person (name, data) VALUES (?1, ?2)",
-        (&me.name, &me.data),
-    )?;
-
-    let mut stmt = conn.prepare("SELECT id, name, data FROM person")?;
-    let person_iter = stmt.query_map([], |row| {
-        Ok(Person {
-            id: row.get(0)?,z
-            name: row.get(1)?,
-            data: row.get(2)?,
-        })
-    })?;
-
-    for person in person_iter {
-        println!("Found person {:?}", person.unwrap());
+    for x in (0..10) {
+        let person_to_set = PersonInput::random_person();
+        add_email_to_database(&db, person_to_set).await?;
     }
     Ok(())
 }
