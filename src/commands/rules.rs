@@ -1,6 +1,6 @@
 use serenity::all::{CreateAttachment, CreateEmbed, CreateMessage, EmbedMessageBuilding, MessageBuilder};
 
-use crate::{Data, Error, Context};
+use crate::{Error, Context};
 
 /// A command that responds with BengalBot's Discord server rules.
 #[poise::command(
@@ -9,11 +9,11 @@ use crate::{Data, Error, Context};
 )]
 pub async fn rules(ctx: Context<'_>) -> Result<(), Error> {
 
-    let DiscordTOS = MessageBuilder::new()
+    let discord_tos = MessageBuilder::new()
         .push("Follow Discord's ")
         .push_named_link("Terms of Service", "https://discord.com/terms").build();
 
-    let LSUCoC = MessageBuilder::new()
+    let lsu_coc = MessageBuilder::new()
         .push("This is a Discord Server for an LSU club, so follow LSU's ")
         .push_named_link("Code of Conduct", "https://www.lsu.edu/saa/students/codeofconduct.php").build();
 
@@ -24,8 +24,8 @@ pub async fn rules(ctx: Context<'_>) -> Result<(), Error> {
         .fields(vec![
             ("Rule 1️⃣", "Be Respectful to Others!", false),
             ("Rule 2️⃣", "Don't Spam Ping", false),
-            ("Rule 3️⃣", &DiscordTOS, false),
-            ("Rule 4️⃣", &LSUCoC, false),
+            ("Rule 3️⃣", &discord_tos, false),
+            ("Rule 4️⃣", &lsu_coc, false),
         ]);
 
     let builder = CreateMessage::new()

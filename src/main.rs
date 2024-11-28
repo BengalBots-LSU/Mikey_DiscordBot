@@ -1,5 +1,4 @@
 use poise::serenity_prelude as serenity;
-use std::env;
 
 mod commands;
 use commands::{
@@ -15,7 +14,7 @@ pub type Context<'a> = poise::Context<'a, Data, Error>;
 
 #[shuttle_runtime::main]
 async fn main(
-        #[shuttle_runtime::Secrets] secrets: SecretStore,
+        #[Secrets] secrets: SecretStore,
 ) -> shuttle_serenity::ShuttleSerenity {
 
     let token = secrets

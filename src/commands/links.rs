@@ -1,6 +1,6 @@
 use serenity::all::{CreateAttachment, CreateEmbed, CreateMessage, EmbedMessageBuilding, MessageBuilder};
 
-use crate::{Data, Error, Context};
+use crate::{Error, Context};
 
 /// A command that responds with BengalBot's Links
 #[poise::command(
