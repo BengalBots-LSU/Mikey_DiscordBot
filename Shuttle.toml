@@ -1,5 +1,8 @@
 [deploy]
 deny_dirty = true
 include = [
-  "Secrets.toml"
+  "Secrets.toml",
+] 
+assets = [
+  "media/*",
 ]
