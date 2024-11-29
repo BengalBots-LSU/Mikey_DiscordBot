@@ -3,6 +3,10 @@ deny_dirty = true
 include = [
   "Secrets.toml",
 ] 
+
+
+# Declare files that should be moved to the runtime container:
+[build]
 assets = [
-  "media/*",
+  "media/*", # Includes all the contents in the media folder at root 
 ]
